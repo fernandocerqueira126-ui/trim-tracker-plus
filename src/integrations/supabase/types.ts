@@ -14,7 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agendamentos: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          data_agendamento: string
+          funcionario: string
+          hora_agendamento: string
+          id: string
+          observacoes: string | null
+          servico_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          data_agendamento: string
+          funcionario: string
+          hora_agendamento: string
+          id?: string
+          observacoes?: string | null
+          servico_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          data_agendamento?: string
+          funcionario?: string
+          hora_agendamento?: string
+          id?: string
+          observacoes?: string | null
+          servico_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agendamentos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agendamentos_servico_id_fkey"
+            columns: ["servico_id"]
+            isOneToOne: false
+            referencedRelation: "servicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clientes: {
+        Row: {
+          created_at: string
+          data_cadastro: string
+          email: string | null
+          id: string
+          nome: string
+          telefone: string | null
+          ultima_visita: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data_cadastro?: string
+          email?: string | null
+          id?: string
+          nome: string
+          telefone?: string | null
+          ultima_visita?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data_cadastro?: string
+          email?: string | null
+          id?: string
+          nome?: string
+          telefone?: string | null
+          ultima_visita?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      servicos: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string
+          preco: number
+          tempo_duracao: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome: string
+          preco: number
+          tempo_duracao: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string
+          preco?: number
+          tempo_duracao?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
