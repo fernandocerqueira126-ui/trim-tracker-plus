@@ -34,8 +34,13 @@ export function AppSidebar() {
   return <Sidebar className={state === "collapsed" ? "w-14" : "w-60"} collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-primary font-bold text-lg bg-zinc-600">
-            ✂️ Barbearia França
+          <SidebarGroupLabel className="text-sidebar-primary font-bold text-lg bg-zinc-600 flex items-center gap-2">
+            <img 
+              src="/franca-logo.png" 
+              alt="Barbearia França" 
+              className="w-6 h-6 rounded-full object-cover"
+            />
+            {state !== "collapsed" && "Barbearia França"}
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
