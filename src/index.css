@@ -8,51 +8,61 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Barbershop Color Palette */
+    --background: 39 40% 95%; /* Bege Arenoso claro para fundo */
+    --foreground: 213 25% 25%; /* Azul escuro para texto */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 39 40% 98%; /* Bege mais claro para cards */
+    --card-foreground: 213 25% 25%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 39 40% 98%;
+    --popover-foreground: 213 25% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 213 35% 73%; /* Azul Acinzentado Leve */
+    --primary-foreground: 39 40% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 105 25% 84%; /* Verde Suave/Menta */
+    --secondary-foreground: 213 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 39 40% 90%; /* Bege mais escuro */
+    --muted-foreground: 213 20% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 36 36% 76%; /* Dourado Pálido */
+    --accent-foreground: 213 25% 25%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 39 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 213 35% 88%;
+    --input: 39 40% 92%;
+    --ring: 213 35% 73%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Enhanced Barbershop Sidebar */
+    --sidebar-background: 213 35% 83%; /* Azul Acinzentado Leve */
+    --sidebar-foreground: 213 25% 25%;
+    --sidebar-primary: 36 36% 76%; /* Dourado Pálido */
+    --sidebar-primary-foreground: 213 25% 25%;
+    --sidebar-accent: 105 25% 84%; /* Verde Suave */
+    --sidebar-accent-foreground: 213 25% 25%;
+    --sidebar-border: 213 35% 78%;
+    --sidebar-ring: 36 36% 76%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Custom Barbershop Variables */
+    --barbershop-blue: 213 35% 83%; /* Azul Acinzentado Leve */
+    --barbershop-beige: 39 40% 85%; /* Bege Arenoso */
+    --barbershop-mint: 105 25% 74%; /* Verde Suave/Menta */
+    --barbershop-gold: 36 36% 76%; /* Dourado Pálido */
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--barbershop-blue)), hsl(var(--barbershop-mint)));
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--barbershop-gold)), hsl(var(--barbershop-beige)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--barbershop-blue) / 0.3);
+    --shadow-luxury: 0 8px 25px -8px hsl(var(--barbershop-gold) / 0.4);
   }
 
   :root.dark {

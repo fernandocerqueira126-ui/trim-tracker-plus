@@ -61,7 +61,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				barbershop: {
+					blue: 'hsl(var(--barbershop-blue))',
+					beige: 'hsl(var(--barbershop-beige))',
+					mint: 'hsl(var(--barbershop-mint))',
+					gold: 'hsl(var(--barbershop-gold))'
 				}
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-luxury': 'var(--gradient-luxury)',
+				'gradient-subtle': 'var(--gradient-subtle)'
+			},
+			boxShadow: {
+				'elegant': 'var(--shadow-elegant)',
+				'luxury': 'var(--shadow-luxury)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

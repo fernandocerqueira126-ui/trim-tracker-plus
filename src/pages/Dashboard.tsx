@@ -68,60 +68,72 @@ export default function Dashboard() {
   }, [])
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">Resumo das atividades da barbearia</p>
+    <div className="space-y-8">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-4xl font-bold bg-gradient-luxury bg-clip-text text-transparent">
+          Dashboard
+        </h1>
+        <p className="text-muted-foreground text-lg">
+          Resumo das atividades da barbearia
+        </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="bg-card/60 backdrop-blur-sm border-0 shadow-elegant hover:shadow-luxury transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-sm font-medium">Total de Clientes</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <div className="w-10 h-10 bg-barbershop-blue/20 rounded-full flex items-center justify-center">
+              <Users className="h-5 w-5 text-primary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalClientes}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-primary">{stats.totalClientes}</div>
+            <p className="text-xs text-barbershop-mint font-medium">
               Clientes cadastrados
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="bg-card/60 backdrop-blur-sm border-0 shadow-elegant hover:shadow-luxury transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-sm font-medium">Agendamentos Hoje</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <div className="w-10 h-10 bg-barbershop-mint/20 rounded-full flex items-center justify-center">
+              <Calendar className="h-5 w-5 text-secondary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.agendamentosHoje}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-secondary">{stats.agendamentosHoje}</div>
+            <p className="text-xs text-barbershop-mint font-medium">
               Para hoje
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="bg-card/60 backdrop-blur-sm border-0 shadow-elegant hover:shadow-luxury transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-sm font-medium">Serviços Realizados</CardTitle>
-            <Scissors className="h-4 w-4 text-muted-foreground" />
+            <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+              <Scissors className="h-5 w-5 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.servicosRealizados}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-primary">{stats.servicosRealizados}</div>
+            <p className="text-xs text-barbershop-mint font-medium">
               Total concluídos
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="bg-card/60 backdrop-blur-sm border-0 shadow-elegant hover:shadow-luxury transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-sm font-medium">Receita do Mês</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <div className="w-10 h-10 bg-barbershop-gold/20 rounded-full flex items-center justify-center">
+              <DollarSign className="h-5 w-5 text-accent" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ {stats.receitaMes.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-accent">R$ {stats.receitaMes.toFixed(2)}</div>
+            <p className="text-xs text-barbershop-mint font-medium">
               Aproximada
             </p>
           </CardContent>
