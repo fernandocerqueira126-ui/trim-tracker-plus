@@ -15,11 +15,9 @@ export default function Layout({ children }: LayoutProps) {
           <header className="h-16 flex items-center border-b border-border bg-card/80 backdrop-blur-sm shadow-elegant">
             <SidebarTrigger className="ml-4" />
             <div className="ml-4 flex items-center gap-3">
-              <img 
-                src="/franca-logo.png" 
-                alt="Barbearia França Logo" 
-                className="w-10 h-10 rounded-full object-cover"
-              />
+              <div className="w-8 h-8 bg-gradient-luxury rounded-full flex items-center justify-center">
+                <span className="text-accent-foreground font-bold text-sm">✂️</span>
+              </div>
               <h1 className="font-bold text-xl text-card-foreground">
                 Barbearia França
               </h1>
