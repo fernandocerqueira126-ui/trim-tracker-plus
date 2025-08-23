@@ -18,38 +18,53 @@ export type Database = {
         Row: {
           cliente_id: string
           created_at: string
+          dados_webhook: Json | null
           data_agendamento: string
           funcionario: string
           hora_agendamento: string
           id: string
+          nome_cliente: string | null
           observacoes: string | null
+          origem_agendamento: string | null
           servico_id: string
           status: string
+          telefone_cliente: string | null
           updated_at: string
+          webhook_processado: boolean | null
         }
         Insert: {
           cliente_id: string
           created_at?: string
+          dados_webhook?: Json | null
           data_agendamento: string
           funcionario: string
           hora_agendamento: string
           id?: string
+          nome_cliente?: string | null
           observacoes?: string | null
+          origem_agendamento?: string | null
           servico_id: string
           status?: string
+          telefone_cliente?: string | null
           updated_at?: string
+          webhook_processado?: boolean | null
         }
         Update: {
           cliente_id?: string
           created_at?: string
+          dados_webhook?: Json | null
           data_agendamento?: string
           funcionario?: string
           hora_agendamento?: string
           id?: string
+          nome_cliente?: string | null
           observacoes?: string | null
+          origem_agendamento?: string | null
           servico_id?: string
           status?: string
+          telefone_cliente?: string | null
           updated_at?: string
+          webhook_processado?: boolean | null
         }
         Relationships: [
           {
@@ -127,6 +142,44 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      webhook_logs: {
+        Row: {
+          agendamento_id: string | null
+          created_at: string
+          dados_recebidos: Json | null
+          id: string
+          origem: string
+          status_processamento: string | null
+          updated_at: string
+        }
+        Insert: {
+          agendamento_id?: string | null
+          created_at?: string
+          dados_recebidos?: Json | null
+          id?: string
+          origem?: string
+          status_processamento?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agendamento_id?: string | null
+          created_at?: string
+          dados_recebidos?: Json | null
+          id?: string
+          origem?: string
+          status_processamento?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhook_logs_agendamento_id_fkey"
+            columns: ["agendamento_id"]
+            isOneToOne: false
+            referencedRelation: "agendamentos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
