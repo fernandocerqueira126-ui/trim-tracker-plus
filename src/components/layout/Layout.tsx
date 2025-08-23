@@ -18,8 +18,8 @@ export default function Layout({ children }: LayoutProps) {
               <div className="w-8 h-8 bg-gradient-luxury rounded-full flex items-center justify-center">
                 <span className="text-accent-foreground font-bold text-sm">✂️</span>
               </div>
-              <h1 className="font-bold text-xl text-card-foreground bg-gradient-luxury bg-clip-text text-transparent">
-                Sistema de Barbearia
+              <h1 className="font-bold text-xl text-card-foreground">
+                Barbearia França
               </h1>
             </div>
           </header>

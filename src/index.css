@@ -10,25 +10,25 @@ All colors MUST be HSL.
   :root {
     /* Barbershop Color Palette */
     --background: 39 40% 95%; /* Bege Arenoso claro para fundo */
-    --foreground: 213 25% 25%; /* Azul escuro para texto */
+    --foreground: 209 26% 45%; /* Azul mais escuro para títulos legíveis */
 
     --card: 39 40% 98%; /* Bege mais claro para cards */
-    --card-foreground: 213 25% 25%;
+    --card-foreground: 209 26% 45%; /* Azul mais escuro para legibilidade */
 
     --popover: 39 40% 98%;
-    --popover-foreground: 213 25% 25%;
+    --popover-foreground: 209 26% 45%;
 
     --primary: 213 35% 73%; /* Azul Acinzentado Leve */
     --primary-foreground: 39 40% 15%;
 
     --secondary: 105 25% 84%; /* Verde Suave/Menta */
-    --secondary-foreground: 213 25% 25%;
+    --secondary-foreground: 209 26% 45%;
 
     --muted: 39 40% 90%; /* Bege mais escuro */
     --muted-foreground: 213 20% 50%;
 
     --accent: 36 36% 76%; /* Dourado Pálido */
-    --accent-foreground: 213 25% 25%;
+    --accent-foreground: 209 26% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 39 40% 98%;
@@ -41,11 +41,11 @@ All colors MUST be HSL.
 
     /* Enhanced Barbershop Sidebar */
     --sidebar-background: 213 35% 83%; /* Azul Acinzentado Leve */
-    --sidebar-foreground: 213 25% 25%;
+    --sidebar-foreground: 209 26% 45%; /* Azul mais escuro para legibilidade */
     --sidebar-primary: 36 36% 76%; /* Dourado Pálido */
-    --sidebar-primary-foreground: 213 25% 25%;
+    --sidebar-primary-foreground: 209 26% 45%;
     --sidebar-accent: 105 25% 84%; /* Verde Suave */
-    --sidebar-accent-foreground: 213 25% 25%;
+    --sidebar-accent-foreground: 209 26% 45%;
     --sidebar-border: 213 35% 78%;
     --sidebar-ring: 36 36% 76%;
 

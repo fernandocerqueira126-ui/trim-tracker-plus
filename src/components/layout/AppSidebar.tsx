@@ -38,7 +38,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-primary font-bold text-lg">
-            ✂️ Barbearia
+            ✂️ Barbearia França
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
