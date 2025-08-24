@@ -72,11 +72,13 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-luxury': 'var(--gradient-luxury)',
-				'gradient-subtle': 'var(--gradient-subtle)'
+				'gradient-subtle': 'var(--gradient-subtle)',
+				'gradient-neon': 'var(--gradient-neon)'
 			},
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',
-				'luxury': 'var(--shadow-luxury)'
+				'luxury': 'var(--shadow-luxury)',
+				'neon': 'var(--shadow-neon)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
