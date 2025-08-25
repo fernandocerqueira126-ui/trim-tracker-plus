@@ -16,7 +16,7 @@ export type Database = {
     Tables: {
       agendamentos: {
         Row: {
-          cliente_id: string
+          cliente_id: string | null
           created_at: string
           dados_webhook: Json | null
           data_agendamento: string
@@ -26,14 +26,14 @@ export type Database = {
           nome_cliente: string | null
           observacoes: string | null
           origem_agendamento: string | null
-          servico_id: string
+          servico_id: string | null
           status: string
           telefone_cliente: string | null
           updated_at: string
           webhook_processado: boolean | null
         }
         Insert: {
-          cliente_id: string
+          cliente_id?: string | null
           created_at?: string
           dados_webhook?: Json | null
           data_agendamento: string
@@ -43,14 +43,14 @@ export type Database = {
           nome_cliente?: string | null
           observacoes?: string | null
           origem_agendamento?: string | null
-          servico_id: string
+          servico_id?: string | null
           status?: string
           telefone_cliente?: string | null
           updated_at?: string
           webhook_processado?: boolean | null
         }
         Update: {
-          cliente_id?: string
+          cliente_id?: string | null
           created_at?: string
           dados_webhook?: Json | null
           data_agendamento?: string
@@ -60,7 +60,7 @@ export type Database = {
           nome_cliente?: string | null
           observacoes?: string | null
           origem_agendamento?: string | null
-          servico_id?: string
+          servico_id?: string | null
           status?: string
           telefone_cliente?: string | null
           updated_at?: string
