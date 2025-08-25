@@ -57,25 +57,39 @@ export default function Dashboard() {
           .select('*', { count: 'exact', head: true })
           .eq('status', 'concluido')
 
-        // Receita do mês (aproximada)
+        // Receita do mês (aproximada) - corrigindo consulta
         const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
         const { data: agendamentosMes } = await supabase
           .from('agendamentos')
-          .select(`
-            servicos!inner(preco)
-          `)
+          .select('servico_id')
           .eq('status', 'concluido')
           .gte('data_agendamento', firstDayOfMonth)
 
-        const receita = agendamentosMes?.reduce((total, agendamento) => {
-          return total + (agendamento.servicos?.preco || 0)
-        }, 0) || 0
+        // Buscar preços dos serviços separadamente
+        let receita = 0
+        if (agendamentosMes && agendamentosMes.length > 0) {
+          const servicoIds = agendamentosMes
+            .map(a => a.servico_id)
+            .filter(id => id !== null)
+          
+          if (servicoIds.length > 0) {
+            const { data: servicos } = await supabase
+              .from('servicos')
+              .select('id, preco')
+              .in('id', servicoIds)
+
+            receita = agendamentosMes.reduce((total, agendamento) => {
+              const servico = servicos?.find(s => s.id === agendamento.servico_id)
+              return total + (servico?.preco || 0)
+            }, 0)
+          }
+        }
 
         setStats({
           totalClientes: clientesCount || 0,
           agendamentosHoje: agendamentosCount || 0,
           servicosRealizados: servicosCount || 0,
-          receitaMes: receita
+          receitaMes: Number(receita) || 0
         })
       } catch (error) {
         console.error('Erro ao carregar estatísticas:', error)
@@ -83,6 +97,36 @@ export default function Dashboard() {
     }
 
     loadStats()
+
+    // Configurar real-time updates
+    const channels = [
+      supabase
+        .channel('clientes-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'clientes' }, () => {
+          loadStats()
+        })
+        .subscribe(),
+      
+      supabase
+        .channel('agendamentos-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'agendamentos' }, () => {
+          loadStats()
+        })
+        .subscribe(),
+
+      supabase
+        .channel('servicos-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'servicos' }, () => {
+          loadStats()
+        })
+        .subscribe()
+    ]
+
+    return () => {
+      channels.forEach(channel => {
+        supabase.removeChannel(channel)
+      })
+    }
   }, [])
 
   return (
