@@ -39,31 +39,66 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadStats() {
       try {
+        console.log('Carregando estatísticas...')
+        
         // Total clientes
-        const { count: clientesCount } = await supabase
+        const { count: clientesCount, error: clientesError } = await supabase
           .from('clientes')
           .select('*', { count: 'exact', head: true })
+        
+        if (clientesError) {
+          console.error('Erro ao buscar clientes:', clientesError)
+        } else {
+          console.log('Total de clientes:', clientesCount)
+        }
 
         // Agendamentos hoje
         const today = new Date().toISOString().split('T')[0]
-        const { count: agendamentosCount } = await supabase
+        console.log('Data de hoje:', today)
+        
+        const { count: agendamentosCount, error: agendamentosError } = await supabase
           .from('agendamentos')
           .select('*', { count: 'exact', head: true })
           .eq('data_agendamento', today)
+        
+        if (agendamentosError) {
+          console.error('Erro ao buscar agendamentos hoje:', agendamentosError)
+        } else {
+          console.log('Agendamentos hoje:', agendamentosCount)
+        }
+
+        // Debug: buscar todos os agendamentos para verificar
+        const { data: todosAgendamentos, error: debugError } = await supabase
+          .from('agendamentos')
+          .select('data_agendamento, status, nome_cliente')
+          .order('data_agendamento', { ascending: false })
+          .limit(5)
+        
+        if (!debugError) {
+          console.log('Últimos 5 agendamentos:', todosAgendamentos)
+        }
 
         // Serviços realizados (status concluído)
-        const { count: servicosCount } = await supabase
+        const { count: servicosCount, error: servicosError } = await supabase
           .from('agendamentos')
           .select('*', { count: 'exact', head: true })
           .eq('status', 'concluido')
+        
+        if (servicosError) {
+          console.error('Erro ao buscar serviços realizados:', servicosError)
+        } else {
+          console.log('Serviços realizados:', servicosCount)
+        }
 
         // Receita do mês (aproximada) - corrigindo consulta
         const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
-        const { data: agendamentosMes } = await supabase
+        const { data: agendamentosMes, error: receitaError } = await supabase
           .from('agendamentos')
           .select('servico_id')
           .eq('status', 'concluido')
           .gte('data_agendamento', firstDayOfMonth)
+
+        console.log('Agendamentos do mês (concluídos):', agendamentosMes?.length || 0)
 
         // Buscar preços dos serviços separadamente
         let receita = 0
@@ -85,12 +120,15 @@ export default function Dashboard() {
           }
         }
 
-        setStats({
+        const newStats = {
           totalClientes: clientesCount || 0,
           agendamentosHoje: agendamentosCount || 0,
           servicosRealizados: servicosCount || 0,
           receitaMes: Number(receita) || 0
-        })
+        }
+        
+        console.log('Estatísticas finais:', newStats)
+        setStats(newStats)
       } catch (error) {
         console.error('Erro ao carregar estatísticas:', error)
       }
