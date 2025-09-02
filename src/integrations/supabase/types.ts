@@ -27,6 +27,7 @@ export type Database = {
           observacoes: string | null
           origem_agendamento: string | null
           servico_id: string | null
+          servico_nome: string | null
           status: string
           telefone_cliente: string | null
           updated_at: string
@@ -44,6 +45,7 @@ export type Database = {
           observacoes?: string | null
           origem_agendamento?: string | null
           servico_id?: string | null
+          servico_nome?: string | null
           status?: string
           telefone_cliente?: string | null
           updated_at?: string
@@ -61,6 +63,7 @@ export type Database = {
           observacoes?: string | null
           origem_agendamento?: string | null
           servico_id?: string | null
+          servico_nome?: string | null
           status?: string
           telefone_cliente?: string | null
           updated_at?: string
@@ -119,18 +122,21 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          full_name: string | null
           id: string
           role: string
           updated_at: string
         }
         Insert: {
           created_at?: string
+          full_name?: string | null
           id: string
           role?: string
           updated_at?: string
         }
         Update: {
           created_at?: string
+          full_name?: string | null
           id?: string
           role?: string
           updated_at?: string
