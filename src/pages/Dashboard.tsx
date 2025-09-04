@@ -16,6 +16,11 @@ interface DashboardStats {
   mediaDuracaoServicos: number
 }
 
+interface FuncionarioStats {
+  nome: string
+  atendimentos: number
+}
+
 export default function Dashboard() {
   const [stats, setStats] = useState<DashboardStats>({
     totalClientes: 0,
@@ -26,6 +31,8 @@ export default function Dashboard() {
     receitaMes: 0,
     mediaDuracaoServicos: 0
   })
+  const [funcionarioStats, setFuncionarioStats] = useState<FuncionarioStats[]>([])
+  const [funcionarios, setFuncionarios] = useState<{[key: string]: string}>({})
 
   // Mock data para gráfico de performance
   const chartData = [
@@ -144,6 +151,39 @@ export default function Dashboard() {
           ? servicosAtivos.reduce((acc, s) => acc + s.tempo_duracao, 0) / servicosAtivos.length
           : 0
 
+        // Buscar dados dos funcionários
+        const { data: funcionariosData } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .eq('role', 'employee')
+
+        // Criar mapa de funcionários
+        const funcionariosMap: {[key: string]: string} = {}
+        funcionariosData?.forEach(funcionario => {
+          funcionariosMap[funcionario.id] = funcionario.full_name || 'Funcionário Desconhecido'
+        })
+
+        // Buscar estatísticas por funcionário (agendamentos concluídos)
+        const { data: agendamentosPorFuncionario } = await supabase
+          .from('agendamentos')
+          .select('funcionario')
+          .eq('status', 'concluido')
+
+        // Contar atendimentos por funcionário
+        const atendimentosPorFunc: {[key: string]: number} = {}
+        agendamentosPorFuncionario?.forEach(agendamento => {
+          const funcId = agendamento.funcionario
+          if (funcId) {
+            atendimentosPorFunc[funcId] = (atendimentosPorFunc[funcId] || 0) + 1
+          }
+        })
+
+        // Converter para array de estatísticas
+        const funcionarioStatsArray: FuncionarioStats[] = Object.entries(atendimentosPorFunc).map(([funcId, count]) => ({
+          nome: funcionariosMap[funcId] || 'Funcionário Desconhecido',
+          atendimentos: count
+        }))
+
         const newStats = {
           totalClientes: clientesCount || 0,
           agendamentosHoje: agendamentosCount || 0,
@@ -156,6 +196,8 @@ export default function Dashboard() {
         
         console.log('Estatísticas finais:', newStats)
         setStats(newStats)
+        setFuncionarios(funcionariosMap)
+        setFuncionarioStats(funcionarioStatsArray)
       } catch (error) {
         console.error('Erro ao carregar estatísticas:', error)
       }
@@ -465,9 +507,12 @@ export default function Dashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={[
-                      { name: 'Funcionário 1', value: Math.floor(stats.servicosRealizados * 0.6), fill: 'hsl(var(--primary))' },
-                      { name: 'Funcionário 2', value: Math.floor(stats.servicosRealizados * 0.4), fill: 'hsl(var(--accent))' }
+                    data={funcionarioStats.length > 0 ? funcionarioStats.map((func, index) => ({
+                      name: func.nome,
+                      value: func.atendimentos,
+                      fill: index === 0 ? 'hsl(var(--primary))' : 'hsl(var(--accent))'
+                    })) : [
+                      { name: 'Sem dados', value: 1, fill: 'hsl(var(--muted))' }
                     ]}
                     cx="50%"
                     cy="50%"
@@ -491,14 +536,22 @@ export default function Dashboard() {
             
             {/* Legenda */}
             <div className="mt-4 space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--primary))' }}></div>
-                <span className="text-sm">Funcionário 1: {Math.floor(stats.servicosRealizados * 0.6)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--accent))' }}></div>
-                <span className="text-sm">Funcionário 2: {Math.floor(stats.servicosRealizados * 0.4)}</span>
-              </div>
+              {funcionarioStats.length > 0 ? (
+                funcionarioStats.map((func, index) => (
+                  <div key={func.nome} className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: index === 0 ? 'hsl(var(--primary))' : 'hsl(var(--accent))' }}
+                    ></div>
+                    <span className="text-sm">{func.nome}: {func.atendimentos}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(var(--muted))' }}></div>
+                  <span className="text-sm">Nenhum dado disponível</span>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -28,6 +28,7 @@ interface Agendamento {
   observacoes?: string
   clientes: { nome: string }
   servicos: { nome: string; preco: number }
+  profiles?: { full_name: string | null }
 }
 
 interface Cliente {
@@ -45,6 +46,7 @@ export default function Agendamentos() {
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([])
   const [clientes, setClientes] = useState<Cliente[]>([])
   const [servicos, setServicos] = useState<Servico[]>([])
+  const [funcionarios, setFuncionarios] = useState<{[key: string]: string}>({})
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [editingAgendamento, setEditingAgendamento] = useState<Agendamento | null>(null)
@@ -68,7 +70,7 @@ export default function Agendamentos() {
 
   async function loadData() {
     try {
-      const [agendamentosResult, clientesResult, servicosResult] = await Promise.all([
+      const [agendamentosResult, clientesResult, servicosResult, funcionariosResult] = await Promise.all([
         supabase
           .from('agendamentos')
           .select(`
@@ -78,16 +80,25 @@ export default function Agendamentos() {
           `)
           .order('data_agendamento', { ascending: false }),
         supabase.from('clientes').select('id, nome').order('nome'),
-        supabase.from('servicos').select('id, nome, preco').order('nome')
+        supabase.from('servicos').select('id, nome, preco').order('nome'),
+        supabase.from('profiles').select('id, full_name').eq('role', 'employee')
       ])
 
       if (agendamentosResult.error) throw agendamentosResult.error
       if (clientesResult.error) throw clientesResult.error
       if (servicosResult.error) throw servicosResult.error
+      if (funcionariosResult.error) throw funcionariosResult.error
+
+      // Criar mapa de funcionários para lookup rápido
+      const funcionariosMap: {[key: string]: string} = {}
+      funcionariosResult.data?.forEach(funcionario => {
+        funcionariosMap[funcionario.id] = funcionario.full_name || 'Funcionário Desconhecido'
+      })
 
       setAgendamentos(agendamentosResult.data as Agendamento[] || [])
       setClientes(clientesResult.data || [])
       setServicos(servicosResult.data || [])
+      setFuncionarios(funcionariosMap)
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
       toast({
@@ -493,9 +504,9 @@ export default function Agendamentos() {
                             {getStatusBadge(agendamento.status)}
                           </div>
                           <p className="text-sm font-medium">{agendamento.servicos?.nome}</p>
-                          <p className="text-xs text-muted-foreground">
-                            Com {agendamento.funcionario}
-                          </p>
+                           <p className="text-xs text-muted-foreground">
+                             Com {funcionarios[agendamento.funcionario] || agendamento.funcionario}
+                           </p>
                           <div className="flex gap-1 mt-3">
                             <Button
                               size="sm"
@@ -545,7 +556,7 @@ export default function Agendamentos() {
                     <TableRow key={agendamento.id}>
                       <TableCell>{agendamento.clientes?.nome}</TableCell>
                       <TableCell>{agendamento.servicos?.nome}</TableCell>
-                      <TableCell>{agendamento.funcionario}</TableCell>
+                      <TableCell>{funcionarios[agendamento.funcionario] || agendamento.funcionario}</TableCell>
                       <TableCell>
                         {new Date(agendamento.data_agendamento).toLocaleDateString('pt-BR')}
                       </TableCell>
